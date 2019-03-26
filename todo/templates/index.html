@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Main
+{% endblock %}
+
+{% block content %}
+  <h2>Список важных дел</h2>
+  <p><a href="{{ url_for('create') }}">Добавить задачу</a></p>
+  {% for task in tasks %}
+    <form class="" method="post">
+      <input type="checkbox" name="name" value="Done">
+      <article class="content">
+        <div class="about">
+          <p>{{ task['id'] }}</p>
+          <p>{{ task['created'] }}</p>
+        </div>
+        <p class="info">{{ task['body'] }}</p>
+        <p class="deadline">Необходимо выполнить к:</p>
+        <form action="{{ url_for('delete', id=task['id']) }}" method="post">
+          <input type="submit" name="delete" value="Delete" onclick="return confirm('Удалить?');">
+        </form>
+      </article>
+    </form>
+  {% endfor %}
+{% endblock %}

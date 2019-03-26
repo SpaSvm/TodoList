@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  New task
+{% endblock %}
+
+{% block content %}
+  <form class="" method="post">
+    <label for="body">Напишите задачу.</label>
+    <textarea name="body" id="body" rows="4" cols="60">{{ request.form['body'] }}</textarea>
+    <label for="todate">Когда должно быть выполнено.</label>
+    <input type="submit" value="Save">
+    <input type="reset" name="reset" value="Очистить поля">
+  </form>
+{% endblock %}
