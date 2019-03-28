@@ -4,23 +4,38 @@
   Main
 {% endblock %}
 
+
+{% block header %}
+  <p>Список важных дел</p>
+{% endblock %}
+
+
 {% block content %}
-  <h2>Список важных дел</h2>
-  <p><a href="{{ url_for('create') }}">Добавить задачу</a></p>
-  {% for task in tasks %}
-    <form class="" method="post">
-      <input type="checkbox" name="name" value="Done">
-      <article class="content">
-        <div class="about">
-          <p>{{ task['id'] }}</p>
-          <p>{{ task['created'] }}</p>
-        </div>
-        <p class="info">{{ task['body'] }}</p>
-        <p class="deadline">Необходимо выполнить к:</p>
-        <form action="{{ url_for('delete', id=task['id']) }}" method="post">
-          <input type="submit" name="delete" value="Delete" onclick="return confirm('Удалить?');">
-        </form>
-      </article>
-    </form>
-  {% endfor %}
+  <p id="add"><a href="{{ url_for('create') }}">Добавить задачу</a></p>
+  <article class="content">
+    {% for task in tasks %}
+        <fieldset id ="{{ task['id'] }}">
+          <legend class="info">Задача #{{ task['id'] }}</legend>
+          <ul>
+            <li><input type="radio" name="{{ task['id'] }}" onclick="if (this.checked){func1({{ task['id'] }})}">Не выполнено</li>
+            <li><input type="radio" name="{{ task['id'] }}" onclick="if (this.checked){func2({{ task['id'] }})}">Выполнено</li>
+          </ul>
+          <span class="core">{{ task['body'] }}</span>
+          <br>
+          <span class="about">Создано {{ task['created'].strftime('%Y-%m-%d') }}</span>
+          <p><a href="{{ url_for('update', id=task['id']) }}">Редактировать</a></p>
+          <form action="{{ url_for('delete', id=task['id']) }}" method="post">
+            <input class="danger" type="submit" name="delete" value="Удалить задачу" onclick="return confirm('Вы уверены, что хотите удалить?');">
+          </form>
+        </fieldset>
+    {% endfor %}
+  </article>
+  <script>
+    function func1(n) {
+      document.getElementById(n).style.color = "red";
+    }
+    function func2(n) {
+      document.getElementById(n).style.color = "green";
+    }
+  </script>
 {% endblock %}

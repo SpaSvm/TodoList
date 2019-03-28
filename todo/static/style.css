@@ -1,0 +1,119 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  font-family: Verdana, Arial, sans-serif;
+  background-color: #F5F7DD;
+  height: 100%;
+  margin: 0;
+}
+
+.content {
+  padding-bottom: 2em;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  height: 20px;
+  left: 45%;
+  margin-bottom: .5em;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:link {
+    color: #3D3D4B;
+  }
+a:visited {
+    color: #1F244B;
+  }
+a:focus {
+	color: #6472F0;
+}
+a:hover {
+    color: #6472F0;
+  }
+a:active {
+	color:#000;
+}
+
+header {
+  text-align: center;
+  text-transform: uppercase;
+  font: normal bold normal 22px cursive, sans-serif;
+}
+
+header .intro {
+  font-size: 18px;
+}
+
+#add {
+  text-align: right;
+  background-color: #C5C7AD;
+  width: 100%;
+}
+
+#add a {
+  margin-right: 1em;
+}
+
+.about {
+  color: slategray;
+  font-style: italic;
+  font-size: small;
+}
+
+.content p {
+  font-size: 14px;
+  margin: .5em;
+}
+
+ul {
+  float: right;
+  list-style-type: none;
+  padding-left: 2em;
+}
+
+.core {
+  word-wrap: break-word;
+  margin: .5em;
+}
+
+textarea {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border-width: 0;
+}
+
+fieldset {
+  margin: .5em;
+}
+
+label {
+  padding-left: .5em;
+}
+
+.save, .reset, .back, .danger {
+  padding: 1em;
+  margin: .5em;
+  background: -moz-linear-gradient(top, #A5A5A5 50%, #FFFFFF);
+  color: black;
+  border-radius: 1em;
+  border-width: thin;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.5);
+}
+
+.danger {
+  padding: .5em 1em;
+}
+
+.save, .reset {
+  float: left;
+}

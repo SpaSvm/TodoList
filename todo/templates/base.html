@@ -8,9 +8,22 @@
     </title>
   </head>
   <body>
-    <h1>Приложение "Todo list"</h1>
-    {% block content %}
-    {% endblock %}
-    <footer>&copy; 2019 SpaSvm</footer>
+    <div class="wrapper">
+      <header>
+        <p>Приложение "Todo list"</p>
+        <div class="intro">
+          {% block header %}
+          {% endblock %}
+        </div>
+      </header>
+      {% block content %}
+      {% endblock %}
+      {% for message in get_flashed_messages() %}
+        <div class="flash">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+    <footer>&copy; 2019 <a href="https://www.codewars.com/users/SpaSvm" target="_blank">SpaSvm</a></footer>
   </body>
 </html>

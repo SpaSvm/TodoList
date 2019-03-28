@@ -1,6 +1,6 @@
 import sqlite3
 import os
-from flask import Flask, redirect, url_for, render_template, request
+from flask import Flask, redirect, url_for, render_template, request, flash
 
 
 DATABASE = 'TodoDatabase.db'
@@ -10,16 +10,13 @@ DEBUG = True
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-if __name__ == '__main__':
-    app.run()
-
 def get_db():
-    db = sqlite3.connect(app.config['DATABASE'])
+    db = sqlite3.connect(app.config['DATABASE'], detect_types=sqlite3.PARSE_DECLTYPES)
     c = db.cursor()
     c.executescript(
         """
         CREATE TABLE IF NOT EXISTS task (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY,
         created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         body TEXT NOT NULL
         );
@@ -43,13 +40,34 @@ def index():
 def create():
     if request.method == 'POST':
         body = request.form['body']
-        db = get_db()
+        error = None
+        if not body:
+            error = 'Необходимо заполнить поле.'
+            flash(error)
+        else:
+            db = get_db()
+            db.execute(
+                'INSERT INTO task (body) VALUES ("{}")'.format(body)
+            )
+            db.commit()
+            return redirect(url_for('index'))
+    return render_template('create.html')
+
+@app.route('/<int:id>/update', methods=['GET', 'POST'])
+def update(id):
+    db = get_db()
+    task = db.execute(
+        'SELECT * FROM task WHERE id = ?', (id,)
+    ).fetchone()
+    if request.method == 'POST':
+        body = request.form['body']
+        error = None
         db.execute(
-            'INSERT INTO task (body) VALUES ("{}")'.format(body)
+            'UPDATE task SET body = "{}" WHERE id = "{}"'.format(body, id)
         )
         db.commit()
         return redirect(url_for('index'))
-    return render_template('create.html')
+    return render_template('update.html', task=task)
 
 
 @app.route('/<int:id>/delete', methods=['GET', 'POST'])
@@ -61,3 +79,7 @@ def delete(id):
     db.execute('DELETE FROM task WHERE id = ?', (id,))
     db.commit()
     return redirect(url_for('index'))
+
+
+if __name__ == '__main__':
+    app.run()
